@@ -132,6 +132,7 @@ export default function LoginPage() {
       <p className="mt-4 rounded-lg border border-dashed border-border bg-background px-3 py-2 text-xs text-muted">
         <span className="font-medium text-foreground">For Demo:</span>{' '}
         <code className="text-accent">Email: demo@financebuddy.local</code> {' '}
+        <br />
         <code className="text-accent">Password: Demo1234!</code>
       </p>
     </AuthCard>
