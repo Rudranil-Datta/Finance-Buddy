@@ -1,4 +1,5 @@
 import axios from 'axios'
+import axiosRetry from 'axios-retry'
 import { getToken, clearAuthSession } from '@/utils/storage.js'
 import { HTTP_STATUS } from '@/utils/constants.js'
 
@@ -23,19 +24,31 @@ export function setUnauthorizedHandler(handler) {
 }
 
 function normalizeBaseUrl(url) {
-  if (!url) return 'http://localhost:5001/api'
+  if (!url) return 'http://localhost:4000/api'
   return url.replace(/\/+$/, '')
 }
 
 const axiosInstance = axios.create({
   baseURL: normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL),
-  timeout: 30_000,
+  timeout: 60_000,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 })
 
+axiosRetry(axiosInstance, {
+  retries: 3,
+  retryDelay: (retryCount) => {
+    return retryCount * 2000
+  },
+  retryCondition: (error) => {
+    return (
+      axiosRetry.isNetworkError(error) ||
+      error.code === 'ECONNABORTED'
+    )
+  },
+})
 /**
  * Strip undefined/null; serialize Dates for query strings.
  */
