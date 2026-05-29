@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'INR',
       uppercase: true,
-      enum: ['USD', 'EUR', 'GBP', 'INR', 'CAD', 'AUD'],
+      enum: ['INR', 'USD', 'EUR', 'GBP', 'CAD', 'AUD'],
     },
     role: {
       type: String,

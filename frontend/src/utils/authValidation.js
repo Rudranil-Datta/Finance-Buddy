@@ -1,3 +1,5 @@
+import { CURRENCIES } from '@/utils/constants.js'
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function isValidEmail(value) {
@@ -22,7 +24,13 @@ export function validateLoginForm({ email, password }) {
 /**
  * @returns {{ errors: Record<string, string>, isValid: boolean }}
  */
-export function validateRegisterForm({ name, email, password, confirmPassword }) {
+export function validateRegisterForm({
+  name,
+  email,
+  password,
+  confirmPassword,
+  currency,
+}) {
   const errors = {}
   const trimmedName = name.trim()
   const trimmedEmail = email.trim()
@@ -32,6 +40,11 @@ export function validateRegisterForm({ name, email, password, confirmPassword })
 
   if (!trimmedEmail) errors.email = 'Email is required'
   else if (!isValidEmail(trimmedEmail)) errors.email = 'Enter a valid email address'
+
+  if (!currency) errors.currency = 'Currency is required'
+  else if (!CURRENCIES.includes(currency)) {
+    errors.currency = 'Select a valid currency'
+  }
 
   if (!password) errors.password = 'Password is required'
   else if (password.length < 8) errors.password = 'Password must be at least 8 characters'

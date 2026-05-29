@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth.js'
 import { DEFAULT_AUTHENTICATED_ROUTE, ROUTES } from '@/app/router/paths.js'
+import { CURRENCIES } from '@/utils/constants.js'
 import { validateRegisterForm } from '@/utils/authValidation.js'
 import AuthCard from '@/components/auth/AuthCard.jsx'
 import Button from '@/components/ui/Button.jsx'
 import Input from '@/components/ui/Input.jsx'
+import Select from '@/components/ui/Select.jsx'
 import FormField from '@/components/ui/FormField.jsx'
 import ErrorMessage from '@/components/feedback/ErrorMessage.jsx'
 
@@ -15,6 +17,7 @@ export default function RegisterPage() {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [currency, setCurrency] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [fieldErrors, setFieldErrors] = useState({})
@@ -35,6 +38,7 @@ export default function RegisterPage() {
     const { errors, isValid } = validateRegisterForm({
       name,
       email,
+      currency,
       password,
       confirmPassword,
     })
@@ -46,6 +50,7 @@ export default function RegisterPage() {
         name: name.trim(),
         email: email.trim().toLowerCase(),
         password,
+        currency,
       })
       navigate(DEFAULT_AUTHENTICATED_ROUTE, {
         replace: true,
@@ -84,7 +89,7 @@ export default function RegisterPage() {
             name="name"
             type="text"
             autoComplete="name"
-            placeholder="Jane Doe"
+  
             value={name}
             error={Boolean(fieldErrors.name)}
             disabled={isLoading}
@@ -101,8 +106,8 @@ export default function RegisterPage() {
             name="email"
             type="email"
             autoComplete="email"
-            inputMode="email"
             placeholder="you@example.com"
+            inputMode="email"
             value={email}
             error={Boolean(fieldErrors.email)}
             disabled={isLoading}
@@ -111,6 +116,34 @@ export default function RegisterPage() {
               clearFieldError('email')
             }}
           />
+        </FormField>
+
+        <FormField
+          label="Currency"
+          htmlFor="currency"
+          required
+          error={fieldErrors.currency}
+        >
+          <Select
+            id="currency"
+            name="currency"
+            value={currency}
+            error={Boolean(fieldErrors.currency)}
+            disabled={isLoading}
+            onChange={(e) => {
+              setCurrency(e.target.value)
+              clearFieldError('currency')
+            }}
+          >
+            <option value="" disabled>
+              Select currency
+            </option>
+            {CURRENCIES.map((code) => (
+              <option key={code} value={code}>
+                {code}
+              </option>
+            ))}
+          </Select>
         </FormField>
 
         <FormField

@@ -66,9 +66,9 @@ export const API_ROUTES = {
 }
 
 /** Supported account currencies (matches backend User schema) */
-export const CURRENCIES = ['USD', 'EUR', 'GBP', 'INR', 'CAD', 'AUD']
+export const CURRENCIES = ['INR', 'USD', 'EUR', 'GBP', 'CAD', 'AUD']
 
-export const DEFAULT_CURRENCY = 'USD'
+export const DEFAULT_CURRENCY = 'INR'
 
 /** Transaction */
 export const TRANSACTION_TYPES = ['income', 'expense']
