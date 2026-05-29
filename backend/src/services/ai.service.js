@@ -77,7 +77,6 @@ async function getLatestInsight(userId, type = 'financial_health') {
   return {
     type,
     healthScore: null,
-    summary: 'Run POST /api/ai/financial-health to generate a LangChain assessment.',
     tips: [],
     inputSnapshot: {
       totalIncome: summary.totalIncome,
